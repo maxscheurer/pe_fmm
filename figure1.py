@@ -35,7 +35,7 @@ df_pelib = df_cppe.copy()
 dfs = [df_cppe, df_pelib]
 impl = ["CPPE", "pelib"]
 
-fig, axes = plt.subplots(nrows=3, ncols=2, sharex=True)
+fig, axes = plt.subplots(nrows=3, ncols=2, sharex=True, sharey=True)
 for ii, theta in enumerate([0.2, 0.3, 0.5, 0.7, 0.99]):
     for axcol, exp_order in zip(axes, [3,5,7]):
         for ax, df, im in zip(axcol, dfs, impl):
