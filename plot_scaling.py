@@ -73,7 +73,7 @@ inset.set_xticks([])
 
 # CPPE results
 dfs = []
-shells = np.arange(10, 40, 5, dtype=int)
+shells = np.arange(10, 35, 5, dtype=int)
 for shell in shells:
     df = pd.read_csv(f"cppe_runs/lr_timings_{shell}.csv")
     dfs.append(df)
