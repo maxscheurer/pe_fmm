@@ -97,6 +97,6 @@ scf_ylim = [0, 30]
 axes[0, 0].set_ylim(scf_ylim)
 axes[0, 1].set_ylim(scf_ylim)
 
-plt.savefig('scaling.png', dpi=600)
+plt.savefig('figure2.png', dpi=600)
 plt.show()
 
