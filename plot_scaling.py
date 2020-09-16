@@ -52,7 +52,8 @@ axes[0,0].set_title('CPPE')
 axes[0,1].set_title('PElib')
 axes[1,1].set_title('PElib (10 nodes)')
 
-axes[0,1].legend(loc=(-1.0,-1.1))
+# axes[0,1].legend(loc=(-1.0,-1.1))
+axes[0,1].legend(loc='upper center', bbox_to_anchor=(-0.2,1.4), ncol=4)
 
 inset = inset_axes(axes[0,1], width=0.7, height=0.7, loc=2, borderpad=2.)
 sns.lineplot(ax=inset, data=df_pelib_single, x="sites", y="time", hue="displaykey", err_style=None, marker=".",
@@ -72,21 +73,24 @@ inset.set_xticks([])
 
 # CPPE results
 dfs = []
-shells = np.arange(10, 65, 5, dtype=int)
+shells = np.arange(10, 40, 5, dtype=int)
 for shell in shells:
-    df = pd.read_csv(f"cppe_runs/scf_timings_{shell}.csv")
+    df = pd.read_csv(f"cppe_runs/lr_timings_{shell}.csv")
     dfs.append(df)
 df_cppe = pd.concat(dfs, ignore_index=True)
 df_cppe["nsites"] = df_cppe["n_sites"]
 df_orig = df_cppe.copy()
-df_cppe = pd.melt(df_cppe, id_vars=['run', 'nsites', 'theta', 'exp_order'], value_vars=['direct', 'fmm'],
-                  value_name="time", var_name="impl")
+df_cppe = pd.melt(df_cppe, id_vars=['nsites', 'theta', 'exp_order'], value_vars=['direct_scf', 'fmm_scf', 'direct_lr', 'fmm_lr'],
+                  value_name="time", var_name="runtype")
+df_cppe['impl'] = df_cppe['runtype'].apply(lambda x: (x.split('_'))[0])
+df_cppe['jobtype'] = df_cppe['runtype'].apply(lambda x: "scf" if "scf" in x else "lr")
+df_cppe['displaykey'] = df_cppe.apply(lambda x: f"{x.jobtype.upper()} ({x.impl.upper()})", axis=1) 
 df_cppe["time"] /= 3600
 
-sns.lineplot(ax=axes[0, 0], data=df_cppe, x="nsites", y="time", hue="impl", err_style=None, marker=".", legend=None)
+sns.lineplot(ax=axes[0, 0], data=df_cppe, x="nsites", y="time", hue="displaykey", err_style=None, marker=".", legend=None)
 
 inset = inset_axes(axes[0, 0], width=0.7, height=0.7, loc=2, borderpad=2.)
-sns.lineplot(ax=inset, data=df_cppe, x="nsites", y="time", hue="impl", err_style=None, marker=".",
+sns.lineplot(ax=inset, data=df_cppe, x="nsites", y="time", hue="displaykey", err_style=None, marker=".",
              legend=None)
 inset.set_xlabel("")
 inset.set_ylabel("")

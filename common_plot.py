@@ -16,7 +16,8 @@ def setup_mpl():
         "text.latex.preamble": tex_premable,
         "pgf.rcfonts": False,
         "pgf.preamble": tex_premable,
+        "lines.linewidth": 1.5,
     }
-    matplotlib.rcParams.update(pgf_with_rc_fonts)
     sns.set_context("paper")
     sns.set_palette("Set2")
+    matplotlib.rcParams.update(pgf_with_rc_fonts)
