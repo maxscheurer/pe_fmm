@@ -3,30 +3,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import seaborn as sns
-import matplotlib
+from common_plot import setup_mpl
 
 colors = sns.color_palette("Set2")
-
-def setup():
-    # Setup matplotlib
-    tex_premable = [
-        r"\usepackage[T1]{fontenc}",
-        r"\usepackage[utf8]{inputenc}",
-        r"\usepackage{lmodern}",
-        r"\usepackage{amsmath}",
-    ]
-    pgf_with_rc_fonts = {
-        "pgf.texsystem": "pdflatex",
-        "font.family": "serif",
-        "text.usetex": True,
-        "text.latex.preamble": tex_premable,
-        "pgf.rcfonts": False,
-        "pgf.preamble": tex_premable,
-    }
-    matplotlib.rcParams.update(pgf_with_rc_fonts)
-
-setup()
-sns.set_context("paper")
+setup_mpl()
 
 df_cppe = pd.read_csv("cppe_runs/solvated_50_errors.csv")
 df_pelib = pd.read_csv("pelib_data/pelib_errors.csv")
