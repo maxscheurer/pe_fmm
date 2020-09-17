@@ -24,54 +24,34 @@ df_pelib['jobtype'] = df_pelib['run'].apply(lambda x: "scf" if "scf" in x else "
 df_pelib['displaykey'] = df_pelib.apply(lambda x: f"{x.jobtype.upper()} ({x.impl.upper()})", axis=1) 
 
 # create figure
-fig, axes = plt.subplots(2,2, sharey=False)
+fig, axes = plt.subplots(3, 2, figsize=(6, 8))
+axes[0,0].set_axis_off()
+axes[1,0].set_axis_off()
+axes[2,0].set_axis_off()
 
 df_pelib_single = df_pelib[df_pelib.nodes == 1]
-sns.lineplot(ax=axes[0, 1], data=df_pelib_single, x="sites", y="time", hue="displaykey", err_style=None, marker=".")
+sns.lineplot(ax=axes[1, 1], data=df_pelib_single, x="sites", y="time", hue="displaykey", err_style=None, marker=".", legend=None)
 
 df_pelib_mpi = df_pelib[df_pelib.nodes == 10]
-sns.lineplot(ax=axes[1, 1], data=df_pelib_mpi, x="sites", y="time", hue="displaykey", err_style=None, marker=".", legend=None)
+sns.lineplot(ax=axes[2, 1], data=df_pelib_mpi, x="sites", y="time", hue="displaykey", err_style=None, marker=".", legend=None)
 
-axes[1,0].set_axis_off()
-axes[0,0].set_xlabel(r'$N_{\mathrm{sites}}$')
-axes[0,1].set_xlabel("")
-axes[1,1].set_xlabel(r'$N_{\mathrm{sites}}$')
 
-axes[0,0].set_ylabel('Wall time (hours)')
-axes[0,1].set_ylabel('Wall time (hours)')
-axes[1,1].set_ylabel('Wall time (hours)')
-
-axes[0,1].set_xticks([])
-axes[1,1].set_xticks(np.arange(0, 200001, 50000))
-axes[0,0].set_xticks(np.arange(0, 200001, 50000))
-plt.setp(axes[1,1].xaxis.get_majorticklabels(), rotation=45)
-plt.setp(axes[0,0].xaxis.get_majorticklabels(), rotation=45)
-plt.subplots_adjust(hspace=0.2, bottom=0.2, wspace=0.3)
-
-axes[0,0].set_title('CPPE')
-axes[0,1].set_title('PElib')
-axes[1,1].set_title('PElib (10 nodes)')
-
-# axes[0,1].legend(loc=(-1.0,-1.1))
-axes[0,1].legend(loc='upper center', bbox_to_anchor=(-0.2,1.4), ncol=4)
-
-inset = inset_axes(axes[0,1], width=0.7, height=0.7, loc=2, borderpad=2.)
+inset = inset_axes(axes[1, 1], width=0.7, height=0.7, loc=2, borderpad=2.5)
 sns.lineplot(ax=inset, data=df_pelib_single, x="sites", y="time", hue="displaykey", err_style=None, marker=".",
              legend=None)
 inset.set_xlabel("")
 inset.set_ylabel("")
-inset.set_ylim(0,4)
-inset.set_xticks([])
+inset.set_ylim(0, 3)
 
-inset = inset_axes(axes[1,1], width=0.7, height=0.7, loc=2, borderpad=2.5)
+
+inset = inset_axes(axes[2, 1], width=0.7, height=0.7, loc=2, borderpad=2.5)
 sns.lineplot(ax=inset, data=df_pelib_mpi, x="sites", y="time", hue="displaykey", err_style=None, marker=".",
              legend=None)
 inset.set_xlabel("")
 inset.set_ylabel("")
-inset.set_ylim(0, 0.4)
-inset.set_xticks([])
+inset.set_ylim(0, 0.3)
 
-# CPPE results
+
 dfs = []
 shells = np.arange(10, 35, 5, dtype=int)
 for shell in shells:
@@ -87,19 +67,36 @@ df_cppe['jobtype'] = df_cppe['runtype'].apply(lambda x: "scf" if "scf" in x else
 df_cppe['displaykey'] = df_cppe.apply(lambda x: f"{x.jobtype.upper()} ({x.impl.upper()})", axis=1) 
 df_cppe["time"] /= 3600
 
-sns.lineplot(ax=axes[0, 0], data=df_cppe, x="nsites", y="time", hue="displaykey", err_style=None, marker=".", legend=None)
+sns.lineplot(ax=axes[0, 1], data=df_cppe, x="nsites", y="time", hue="displaykey", err_style=None, marker=".", legend=None)
 
-inset = inset_axes(axes[0, 0], width=0.7, height=0.7, loc=2, borderpad=2.)
+inset = inset_axes(axes[0, 1], width=0.7, height=0.7, loc=2, borderpad=2.5)
 sns.lineplot(ax=inset, data=df_cppe, x="nsites", y="time", hue="displaykey", err_style=None, marker=".",
              legend=None)
 inset.set_xlabel("")
 inset.set_ylabel("")
-inset.set_ylim(0,4)
-inset.set_xticks([])
+inset.set_ylim(0, 3)
 
-scf_ylim = [0, 30]
-axes[0, 0].set_ylim(scf_ylim)
-axes[0, 1].set_ylim(scf_ylim)
+axes[0, 1].set_ylim([0,30])
+axes[1, 1].set_ylim([0,30])
+axes[2, 1].set_ylim([0, 5])
+axes[0, 1].set_xlim([0,2e5])
+axes[1, 1].set_xlim([0,2e5])
+axes[2, 1].set_xlim([0,2e5])
+axes[0, 1].set_yticks([0, 5, 10, 15, 20, 25])
+axes[1, 1].set_yticks([0, 5, 10, 15, 20, 25])
+axes[2, 1].set_yticks([0, 1, 2, 3, 4])
+axes[0, 1].set_ylabel("Wall time (hours)")
+axes[1, 1].set_ylabel("Wall time (hours)")
+axes[2, 1].set_ylabel("Wall time (hours)")
+axes[0, 1].set_xticks([])
+axes[1, 1].set_xticks([])
+axes[0, 1].set_xlabel('')
+axes[1, 1].set_xlabel('')
+axes[2, 1].set_xlabel('Number of particles')
+axes[0,1].set_title('CPPE', pad=-12, y=1.001)
+axes[1,1].set_title('PElib', pad=-12, y=1.001)
+axes[2,1].set_title('PElib (10 nodes)', pad=-12, y=1.001)
+plt.subplots_adjust(hspace=0.05)
 
 plt.savefig('figure2.png', dpi=600)
 plt.show()
