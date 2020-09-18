@@ -8,7 +8,7 @@ from common_plot import setup_mpl
 colors = sns.color_palette("Set2")
 setup_mpl()
 
-df_cppe = pd.read_csv("cppe_runs/solvated_50_errors.csv")
+df_cppe = pd.read_csv("cppe_runs/solvated_50_errors_serial_intel.csv")
 df_pelib = pd.read_csv("pelib_data/pelib_errors.csv")
 
 dfs = [df_cppe, df_pelib]
