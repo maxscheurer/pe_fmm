@@ -1,0 +1,47 @@
+Solving direct summation
+0 --- Norm: 0.030268628105
+1 --- Norm: 0.004269401913
+2 --- Norm: 0.000567017149
+3 --- Norm: 0.000111512881
+4 --- Norm: 0.000015112085
+5 --- Norm: 0.000002961804
+6 --- Norm: 0.000000452864
+7 --- Norm: 0.000000082991
+8 --- Norm: 0.000000013630
+9 --- Norm: 0.000000002273
+System 10
+Timer  1.2s lifetime:
+  induced            890.652ms
+  static             251.396ms
+
+Solving FMM summation
+0 --- Norm: 0.030268365893
+1 --- Norm: 0.004269340797
+2 --- Norm: 0.000567004250
+3 --- Norm: 0.000111510607
+4 --- Norm: 0.000015111774
+5 --- Norm: 0.000002961729
+6 --- Norm: 0.000000452847
+7 --- Norm: 0.000000082987
+8 --- Norm: 0.000000013629
+9 --- Norm: 0.000000002273
+Traceback (most recent call last):
+  File "timings_indmom.py", line 53, in <module>
+    yaml.safe_dump(ret, f)
+  File "/home/hd/hd_hd/hd_pn409/miniconda3/envs/fmm/lib/python3.8/site-packages/yaml/__init__.py", line 306, in safe_dump
+    return dump_all([data], stream, Dumper=SafeDumper, **kwds)
+  File "/home/hd/hd_hd/hd_pn409/miniconda3/envs/fmm/lib/python3.8/site-packages/yaml/__init__.py", line 278, in dump_all
+    dumper.represent(data)
+  File "/home/hd/hd_hd/hd_pn409/miniconda3/envs/fmm/lib/python3.8/site-packages/yaml/representer.py", line 27, in represent
+    node = self.represent_data(data)
+  File "/home/hd/hd_hd/hd_pn409/miniconda3/envs/fmm/lib/python3.8/site-packages/yaml/representer.py", line 48, in represent_data
+    node = self.yaml_representers[data_types[0]](self, data)
+  File "/home/hd/hd_hd/hd_pn409/miniconda3/envs/fmm/lib/python3.8/site-packages/yaml/representer.py", line 207, in represent_dict
+    return self.represent_mapping('tag:yaml.org,2002:map', data)
+  File "/home/hd/hd_hd/hd_pn409/miniconda3/envs/fmm/lib/python3.8/site-packages/yaml/representer.py", line 118, in represent_mapping
+    node_value = self.represent_data(item_value)
+  File "/home/hd/hd_hd/hd_pn409/miniconda3/envs/fmm/lib/python3.8/site-packages/yaml/representer.py", line 58, in represent_data
+    node = self.yaml_representers[None](self, data)
+  File "/home/hd/hd_hd/hd_pn409/miniconda3/envs/fmm/lib/python3.8/site-packages/yaml/representer.py", line 231, in represent_undefined
+    raise RepresenterError("cannot represent an object", data)
+yaml.representer.RepresenterError: ('cannot represent an object', 10)
